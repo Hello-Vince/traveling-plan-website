@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Quicksand:wght@400;500;600;700&family=M+PLUS+Rounded+1c:wght@400;500;700&display=swap');
+
+:root {
+  --bg-primary: #FFF8F0;
+  --bg-card: #FFFFFF;
+  --pink: #F4A7BB;
+  --sage: #B8D4A3;
+  --cream: #FFF0DB;
+  --lavender: #D4B8E0;
+  --sky: #A8D8EA;
+  --text-primary: #5C4033;
+  --text-secondary: #8B7355;
+  --border: #E8DDD0;
+  --outline-brown: #8B6F47;
+
+  --accent: var(--pink);
+  --accent-bg: #FFF0F5;
+  --accent-ring: rgba(244, 167, 187, 0.25);
+
+  --font-cjk: 'Noto Sans TC', 'Microsoft JhengHei', sans-serif;
+  --font-body: 'Quicksand', 'Nunito', var(--font-cjk);
+  --font-sticker: 'M PLUS Rounded 1c', var(--font-cjk);
+}
+
+[data-accent="pink"] {
+  --accent: #F4A7BB;
+  --accent-bg: #FFF0F5;
+  --accent-ring: rgba(244, 167, 187, 0.25);
+}
+
+[data-accent="sage"] {
+  --accent: #B8D4A3;
+  --accent-bg: #F0F8E8;
+  --accent-ring: rgba(184, 212, 163, 0.25);
+}
+
+[data-accent="lavender"] {
+  --accent: #D4B8E0;
+  --accent-bg: #F5F0F8;
+  --accent-ring: rgba(212, 184, 224, 0.25);
+}
+
+[data-accent="sky"] {
+  --accent: #A8D8EA;
+  --accent-bg: #F0F8FC;
+  --accent-ring: rgba(168, 216, 234, 0.25);
+}
+
+[data-theme="dark"] {
+  --bg-primary: #2D2A26;
+  --bg-card: #3A3631;
+  --cream: #4A4539;
+  --text-primary: #F0E6D8;
+  --text-secondary: #C4B8A8;
+  --border: #4A4539;
+  --outline-brown: #A08060;
+}
+
+[data-theme="dark"][data-accent="pink"] {
+  --accent: #D4879A;
+  --accent-bg: #3D2D33;
+  --accent-ring: rgba(212, 135, 154, 0.2);
+}
+
+[data-theme="dark"][data-accent="sage"] {
+  --accent: #8FB07A;
+  --accent-bg: #2D3D28;
+  --accent-ring: rgba(143, 176, 122, 0.2);
+}
+
+[data-theme="dark"][data-accent="lavender"] {
+  --accent: #A48BB0;
+  --accent-bg: #352D3D;
+  --accent-ring: rgba(164, 139, 176, 0.2);
+}
+
+[data-theme="dark"][data-accent="sky"] {
+  --accent: #7AACBE;
+  --accent-bg: #2D353D;
+  --accent-ring: rgba(122, 172, 190, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  padding-bottom: 80px;
+  position: relative;
+}
+
+.appHeader {
+  padding: 20px 16px 12px;
+  text-align: center;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 90;
+}
+
+.appTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  font-family: var(--font-cjk);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.appSubtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+  font-weight: 600;
+}
+
+.sakuraLeft,
+.sakuraRight {
+  font-size: 1.1rem;
+}

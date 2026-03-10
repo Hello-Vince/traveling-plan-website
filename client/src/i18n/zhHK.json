@@ -1,0 +1,121 @@
+{
+  "app": {
+    "title": "哈利法克斯旅行計劃",
+    "subtitle": "2026 新斯科舍之旅"
+  },
+  "nav": {
+    "stickers": "貼紙",
+    "shopping": "購物",
+    "flights": "航班",
+    "itinerary": "行程",
+    "ledger": "帳簿",
+    "settings": "設定"
+  },
+  "stickers": {
+    "title": "我的旅行貼紙",
+    "subtitle": "點擊收集你嘅最愛！",
+    "selected": "已選擇"
+  },
+  "shopping": {
+    "title": "購物清單",
+    "subtitle": "喺哈利法克斯要買嘅嘢",
+    "qty": "數量",
+    "addItem": "新增項目",
+    "editItem": "編輯項目",
+    "empty": "暫時冇嘢！",
+    "name": "項目名稱",
+    "emoji": "表情符號",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除"
+  },
+  "flights": {
+    "title": "登機證",
+    "subtitle": "你嘅航班資訊",
+    "gate": "閘口",
+    "seat": "座位",
+    "status": {
+      "scheduled": "已排定",
+      "boarding": "登機中",
+      "departed": "已起飛",
+      "arrived": "已到達"
+    },
+    "departure": "出發",
+    "arrival": "到達",
+    "addFlight": "新增航班",
+    "editFlight": "編輯航班",
+    "airline": "航空公司",
+    "flightNo": "航班號碼",
+    "airportCode": "機場代碼",
+    "city": "城市",
+    "time": "時間",
+    "date": "日期",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除"
+  },
+  "itinerary": {
+    "title": "每日行程",
+    "subtitle": "7 日哈利法克斯之旅",
+    "day": "第",
+    "countdown": "日就出發！",
+    "countdownPast": "旅程進行中！",
+    "weather": "天氣",
+    "addDay": "新增日子",
+    "editDay": "編輯日子",
+    "addLocation": "新增地點",
+    "editLocation": "編輯地點",
+    "dayTitle": "日子標題",
+    "dayDate": "日期",
+    "weatherIcon": "天氣圖標",
+    "weatherTemp": "溫度",
+    "locationName": "地點名稱",
+    "locationTime": "時間",
+    "locationEmoji": "表情符號",
+    "locationCategory": "類別",
+    "locationNotes": "備註",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "deleteDay": "刪除日子"
+  },
+  "ledger": {
+    "title": "旅行開支",
+    "subtitle": "追蹤你嘅消費",
+    "addExpense": "新增開支",
+    "editExpense": "編輯開支",
+    "description": "描述",
+    "amount": "金額 ($)",
+    "category": "類別",
+    "date": "日期",
+    "total": "總共花費",
+    "save": "儲存",
+    "cancel": "取消",
+    "delete": "刪除",
+    "empty": "暫時冇開支！",
+    "categories": {
+      "food": "飲食",
+      "transport": "交通",
+      "accommodation": "住宿",
+      "shopping": "購物",
+      "other": "其他"
+    }
+  },
+  "settings": {
+    "title": "設定",
+    "language": "語言",
+    "theme": "主題",
+    "light": "淺色",
+    "dark": "深色",
+    "accentColor": "主色調",
+    "fontSize": "字體大小",
+    "small": "細",
+    "medium": "中",
+    "large": "大",
+    "fallingEffect": "飄落效果",
+    "none": "無",
+    "snowflakes": "雪花",
+    "cherry": "櫻花",
+    "stars": "星星"
+  }
+}

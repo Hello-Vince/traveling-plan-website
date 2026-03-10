@@ -1,0 +1,121 @@
+{
+  "app": {
+    "title": "Halifax Trip Planner",
+    "subtitle": "Nova Scotia Adventure 2026"
+  },
+  "nav": {
+    "stickers": "Stickers",
+    "shopping": "Shopping",
+    "flights": "Flights",
+    "itinerary": "Itinerary",
+    "ledger": "Ledger",
+    "settings": "Settings"
+  },
+  "stickers": {
+    "title": "My Travel Stickers",
+    "subtitle": "Tap to collect your favorites!",
+    "selected": "selected"
+  },
+  "shopping": {
+    "title": "Shopping List",
+    "subtitle": "Things to buy in Halifax",
+    "qty": "Qty",
+    "addItem": "Add Item",
+    "editItem": "Edit Item",
+    "empty": "No items yet!",
+    "name": "Item Name",
+    "emoji": "Emoji",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "flights": {
+    "title": "Boarding Passes",
+    "subtitle": "Your flight information",
+    "gate": "Gate",
+    "seat": "Seat",
+    "status": {
+      "scheduled": "Scheduled",
+      "boarding": "Boarding",
+      "departed": "Departed",
+      "arrived": "Arrived"
+    },
+    "departure": "Departure",
+    "arrival": "Arrival",
+    "addFlight": "Add Flight",
+    "editFlight": "Edit Flight",
+    "airline": "Airline",
+    "flightNo": "Flight No.",
+    "airportCode": "Airport Code",
+    "city": "City",
+    "time": "Time",
+    "date": "Date",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete"
+  },
+  "itinerary": {
+    "title": "Daily Itinerary",
+    "subtitle": "7-day Halifax adventure",
+    "day": "Day",
+    "countdown": "days to go!",
+    "countdownPast": "Trip in progress!",
+    "weather": "Weather",
+    "addDay": "Add Day",
+    "editDay": "Edit Day",
+    "addLocation": "Add Location",
+    "editLocation": "Edit Location",
+    "dayTitle": "Day Title",
+    "dayDate": "Date",
+    "weatherIcon": "Weather Icon",
+    "weatherTemp": "Temperature",
+    "locationName": "Location Name",
+    "locationTime": "Time",
+    "locationEmoji": "Emoji",
+    "locationCategory": "Category",
+    "locationNotes": "Notes",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteDay": "Delete Day"
+  },
+  "ledger": {
+    "title": "Trip Expenses",
+    "subtitle": "Track your spending",
+    "addExpense": "Add Expense",
+    "editExpense": "Edit Expense",
+    "description": "Description",
+    "amount": "Amount ($)",
+    "category": "Category",
+    "date": "Date",
+    "total": "Total Spent",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "empty": "No expenses yet!",
+    "categories": {
+      "food": "Food",
+      "transport": "Transport",
+      "accommodation": "Accommodation",
+      "shopping": "Shopping",
+      "other": "Other"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "theme": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "accentColor": "Accent Color",
+    "fontSize": "Font Size",
+    "small": "Small",
+    "medium": "Medium",
+    "large": "Large",
+    "fallingEffect": "Falling Effect",
+    "none": "None",
+    "snowflakes": "Snowflakes",
+    "cherry": "Cherry Blossoms",
+    "stars": "Stars"
+  }
+}

@@ -1,0 +1,94 @@
+.container {
+  padding: 16px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.stickerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 4px;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(92, 64, 51, 0.06);
+}
+
+.stickerCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(92, 64, 51, 0.1);
+}
+
+.stickerCard:active {
+  transform: scale(0.95);
+}
+
+.stickerCard.selected {
+  border-color: var(--accent);
+  background: var(--accent-bg);
+  box-shadow: 0 0 0 3px var(--accent-ring);
+}
+
+.emoji {
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.3s ease;
+}
+
+.stickerCard.selected .emoji {
+  animation: bounce 0.4s ease;
+}
+
+.label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.counter {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.counterNum {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+@keyframes bounce {
+  0% { transform: scale(1); }
+  30% { transform: scale(1.3); }
+  50% { transform: scale(0.9); }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}

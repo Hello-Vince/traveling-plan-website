@@ -1,0 +1,389 @@
+.container {
+  padding: 16px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 4px;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.countdown {
+  text-align: center;
+  padding: 16px;
+  background: var(--accent-bg);
+  border-radius: 16px;
+  margin-bottom: 20px;
+  border: 2px solid var(--accent);
+}
+
+.countdownNum {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.countdownLabel {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.dayTabs {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  -webkit-overflow-scrolling: touch;
+  align-items: center;
+}
+
+.dayTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.dayTab {
+  padding: 8px 16px;
+  border-radius: 24px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  color: var(--text-primary);
+  font-family: var(--font-body);
+}
+
+.dayTab:hover {
+  border-color: var(--accent);
+}
+
+.dayTab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.dayTabAdd {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px dashed var(--accent);
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.dayTabAdd:hover {
+  background: var(--accent);
+  color: white;
+}
+
+.dayCard {
+  background: var(--bg-card);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(92, 64, 51, 0.08);
+  border: 1px solid var(--border);
+}
+
+.dayHeader {
+  padding: 16px 20px;
+  background: var(--accent-bg);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dayHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dayTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.dayDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.weatherIcon {
+  font-size: 1.3rem;
+}
+
+.editDayBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.editDayBtn:hover {
+  background: var(--accent-bg);
+  border-color: var(--accent);
+}
+
+.timeline {
+  padding: 16px 20px;
+}
+
+.timelineItem {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  border-radius: 8px;
+}
+
+.timelineItem:hover {
+  background: var(--accent-bg);
+}
+
+.timelineItem:last-child {
+  border-bottom: none;
+}
+
+.timeCol {
+  min-width: 50px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.time {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.dot {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  background: var(--accent-bg);
+  border: 2px solid var(--accent);
+}
+
+.locationInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.locationName {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.locationNotes {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.categoryBadge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 12px;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.categoryBadge.food { background: #FFECD2; color: #C06C00; }
+.categoryBadge.landmark { background: #D4EDDA; color: #155724; }
+.categoryBadge.shopping { background: #F8D7DA; color: #721C24; }
+.categoryBadge.transport { background: #D1ECF1; color: #0C5460; }
+.categoryBadge.hotel { background: #E2D4F0; color: #4A2074; }
+.categoryBadge.activity { background: #FFF3CD; color: #856404; }
+.categoryBadge.nature { background: #D4EDDA; color: #155724; }
+.categoryBadge.culture { background: #F8D7DA; color: #721C24; }
+
+.addLocBtn {
+  display: block;
+  width: calc(100% - 40px);
+  margin: 0 20px 16px;
+  padding: 10px;
+  border: 2px dashed var(--accent);
+  border-radius: 12px;
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.addLocBtn:hover {
+  background: var(--accent);
+  color: white;
+}
+
+/* Modal */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.modalContent {
+  background: var(--bg-card);
+  border-radius: 20px;
+  padding: 24px;
+  width: 100%;
+  max-width: 440px;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 40px rgba(92, 64, 51, 0.2);
+}
+
+.modalTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.formGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.formInput {
+  padding: 8px 12px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-family: var(--font-body);
+  transition: border-color 0.2s ease;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.modalActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  justify-content: flex-end;
+}
+
+.saveBtn,
+.cancelBtn,
+.deleteBtn {
+  padding: 8px 20px;
+  border-radius: 24px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  font-family: var(--font-body);
+  transition: all 0.2s ease;
+}
+
+.saveBtn {
+  background: var(--accent);
+  color: white;
+}
+
+.saveBtn:hover {
+  opacity: 0.9;
+}
+
+.cancelBtn {
+  background: var(--bg-primary);
+  color: var(--text-secondary);
+  border-color: var(--border);
+}
+
+.cancelBtn:hover {
+  border-color: var(--accent);
+}
+
+.deleteBtn {
+  background: #F8D7DA;
+  color: #721C24;
+  margin-right: auto;
+}
+
+.deleteBtn:hover {
+  background: #f5c6cb;
+}
