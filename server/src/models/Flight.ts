@@ -21,28 +21,28 @@ export interface IFlight extends Document {
 }
 
 const FlightSchema = new Schema<IFlight>({
-  airline: { type: String, required: true },
-  flightNo: { type: String, required: true },
+  airline: { type: String, default: '' },
+  flightNo: { type: String, default: '' },
   departure: {
-    code: { type: String, required: true },
+    code: { type: String, default: '' },
     city: {
-      en: { type: String, required: true },
-      zhHK: { type: String, required: true },
+      en: { type: String, default: '' },
+      zhHK: { type: String, default: '' },
     },
-    time: { type: String, required: true },
-    date: { type: String, required: true },
+    time: { type: String, default: '' },
+    date: { type: String, default: '' },
   },
   arrival: {
-    code: { type: String, required: true },
+    code: { type: String, default: '' },
     city: {
-      en: { type: String, required: true },
-      zhHK: { type: String, required: true },
+      en: { type: String, default: '' },
+      zhHK: { type: String, default: '' },
     },
-    time: { type: String, required: true },
-    date: { type: String, required: true },
+    time: { type: String, default: '' },
+    date: { type: String, default: '' },
   },
-  gate: { type: String, required: true },
-  seat: { type: String, required: true },
+  gate: { type: String, default: '' },
+  seat: { type: String, default: '' },
   status: {
     type: String,
     enum: ['scheduled', 'boarding', 'departed', 'arrived'],

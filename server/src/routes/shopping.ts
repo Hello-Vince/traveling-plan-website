@@ -17,8 +17,9 @@ router.post('/', async (req: Request, res: Response) => {
     const item = new ShoppingItem(req.body);
     await item.save();
     res.status(201).json(item);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create item' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to create item' });
   }
 });
 
@@ -27,12 +28,13 @@ router.patch('/:id', async (req: Request, res: Response) => {
     const item = await ShoppingItem.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!item) return res.status(404).json({ error: 'Item not found' });
     res.json(item);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update item' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to update item' });
   }
 });
 

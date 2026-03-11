@@ -13,16 +13,16 @@ export interface IShoppingItem extends Document {
 
 const ShoppingItemSchema = new Schema<IShoppingItem>({
   name: {
-    en: { type: String, required: true },
-    zhHK: { type: String, required: true },
+    en: { type: String, default: '' },
+    zhHK: { type: String, default: '' },
   },
-  image: { type: String, required: true },
+  image: { type: String, default: '🛒' },
   tags: [{
     label: {
-      en: { type: String, required: true },
-      zhHK: { type: String, required: true },
+      en: { type: String, default: '' },
+      zhHK: { type: String, default: '' },
     },
-    color: { type: String, required: true },
+    color: { type: String, default: '#FFECD2' },
   }],
   checked: { type: Boolean, default: false },
   quantity: { type: Number, default: 1 },

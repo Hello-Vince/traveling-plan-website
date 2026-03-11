@@ -82,6 +82,11 @@ export default function Itinerary() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(editingDay),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const created = await res.json();
         setDays((prev) => [...prev, created].sort((a, b) => a.dayNumber - b.dayNumber));
         setActiveDay(created.dayNumber);
@@ -92,12 +97,18 @@ export default function Itinerary() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const updated = await res.json();
         setDays((prev) => prev.map((d) => (d._id === updated._id ? updated : d)));
       }
       closeDay();
     } catch (err) {
-      console.error(err);
+      console.error('Save failed:', err);
+      alert(`Failed to save: ${err instanceof Error ? err.message : 'Network error'}`);
     }
   };
 
@@ -148,11 +159,17 @@ export default function Itinerary() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...currentDay, locations: updatedLocations }),
       });
+      if (!res.ok) {
+        const errorText = await res.text();
+        alert(`Failed to save: ${errorText || res.statusText}`);
+        return;
+      }
       const updated = await res.json();
       setDays((prev) => prev.map((d) => (d._id === updated._id ? updated : d)));
       closeLoc();
     } catch (err) {
-      console.error(err);
+      console.error('Save failed:', err);
+      alert(`Failed to save: ${err instanceof Error ? err.message : 'Network error'}`);
     }
   };
 

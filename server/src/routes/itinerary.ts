@@ -27,8 +27,9 @@ router.post('/', async (req: Request, res: Response) => {
     const day = new ItineraryDay(req.body);
     await day.save();
     res.status(201).json(day);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create day' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to create day' });
   }
 });
 
@@ -37,12 +38,13 @@ router.put('/:id', async (req: Request, res: Response) => {
     const day = await ItineraryDay.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!day) return res.status(404).json({ error: 'Day not found' });
     res.json(day);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update day' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to update day' });
   }
 });
 

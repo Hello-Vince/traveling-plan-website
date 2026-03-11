@@ -17,8 +17,9 @@ router.post('/', async (req: Request, res: Response) => {
     const flight = new Flight(req.body);
     await flight.save();
     res.status(201).json(flight);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create flight' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to create flight' });
   }
 });
 
@@ -27,12 +28,13 @@ router.patch('/:id', async (req: Request, res: Response) => {
     const flight = await Flight.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!flight) return res.status(404).json({ error: 'Flight not found' });
     res.json(flight);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update flight' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to update flight' });
   }
 });
 

@@ -20,27 +20,27 @@ export interface IItineraryDay extends Document {
 
 const ItineraryDaySchema = new Schema<IItineraryDay>({
   dayNumber: { type: Number, required: true, unique: true },
-  date: { type: String, required: true },
+  date: { type: String, default: '' },
   title: {
-    en: { type: String, required: true },
-    zhHK: { type: String, required: true },
+    en: { type: String, default: '' },
+    zhHK: { type: String, default: '' },
   },
   weather: {
-    icon: { type: String, required: true },
-    temp: { type: String, required: true },
+    icon: { type: String, default: '☀️' },
+    temp: { type: String, default: '' },
     description: {
-      en: { type: String, required: true },
-      zhHK: { type: String, required: true },
+      en: { type: String, default: '' },
+      zhHK: { type: String, default: '' },
     },
   },
   locations: [{
-    time: { type: String, required: true },
+    time: { type: String, default: '' },
     name: {
-      en: { type: String, required: true },
-      zhHK: { type: String, required: true },
+      en: { type: String, default: '' },
+      zhHK: { type: String, default: '' },
     },
-    category: { type: String, required: true },
-    emoji: { type: String, required: true },
+    category: { type: String, default: 'landmark' },
+    emoji: { type: String, default: '📍' },
     notes: {
       en: { type: String, default: '' },
       zhHK: { type: String, default: '' },

@@ -17,8 +17,9 @@ router.post('/', async (req: Request, res: Response) => {
     const expense = new Expense(req.body);
     await expense.save();
     res.status(201).json(expense);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to create expense' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to create expense' });
   }
 });
 
@@ -27,12 +28,13 @@ router.patch('/:id', async (req: Request, res: Response) => {
     const expense = await Expense.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
     if (!expense) return res.status(404).json({ error: 'Expense not found' });
     res.json(expense);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update expense' });
+  } catch (err: any) {
+    const status = err.name === 'ValidationError' ? 400 : 500;
+    res.status(status).json({ error: err.message || 'Failed to update expense' });
   }
 });
 

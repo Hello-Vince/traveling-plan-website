@@ -79,6 +79,11 @@ export default function ShoppingList() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(editing),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const created = await res.json();
         setItems((prev) => [...prev, created]);
       } else {
@@ -88,12 +93,18 @@ export default function ShoppingList() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const updated = await res.json();
         setItems((prev) => prev.map((i) => (i._id === updated._id ? updated : i)));
       }
       close();
     } catch (err) {
-      console.error(err);
+      console.error('Save failed:', err);
+      alert(`Failed to save: ${err instanceof Error ? err.message : 'Network error'}`);
     }
   };
 

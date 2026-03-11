@@ -72,6 +72,11 @@ export default function Ledger() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(editing),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const created = await res.json();
         setExpenses((prev) => [...prev, created]);
       } else {
@@ -81,12 +86,18 @@ export default function Ledger() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body),
         });
+        if (!res.ok) {
+          const errorText = await res.text();
+          alert(`Failed to save: ${errorText || res.statusText}`);
+          return;
+        }
         const updated = await res.json();
         setExpenses((prev) => prev.map((e) => (e._id === updated._id ? updated : e)));
       }
       close();
     } catch (err) {
-      console.error(err);
+      console.error('Save failed:', err);
+      alert(`Failed to save: ${err instanceof Error ? err.message : 'Network error'}`);
     }
   };
 
