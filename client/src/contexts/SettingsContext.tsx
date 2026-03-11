@@ -10,6 +10,8 @@ const defaultSettings: AppSettings = {
   accentColor: 'pink',
   fontSize: 'medium',
   fallingEffect: 'none',
+  destination: 'Halifax',
+  year: 2026,
 };
 
 function loadSettings(): AppSettings {
@@ -27,6 +29,8 @@ interface SettingsContextType {
   setAccentColor: (color: AccentColor) => void;
   setFontSize: (size: FontSize) => void;
   setFallingEffect: (effect: FallingEffect) => void;
+  setDestination: (destination: string) => void;
+  setYear: (year: number) => void;
 }
 
 const SettingsContext = createContext<SettingsContextType | null>(null);
@@ -65,6 +69,8 @@ export function SettingsProvider({ children }: { children: ReactNode }) {
         setAccentColor: (accentColor) => update({ accentColor }),
         setFontSize: (fontSize) => update({ fontSize }),
         setFallingEffect: (fallingEffect) => update({ fallingEffect }),
+        setDestination: (destination) => update({ destination }),
+        setYear: (year) => update({ year }),
       }}
     >
       {children}

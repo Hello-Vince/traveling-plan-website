@@ -6,6 +6,24 @@ import styles from './BoardingPass.module.css';
 
 const API = '/api/flights';
 
+type FlightErrors = {
+  airline?: string;
+  flightNo?: string;
+  departure?: { code?: string; date?: string };
+  arrival?: { code?: string; date?: string };
+};
+
+const validateFlight = (flight: Omit<Flight, '_id'>): FlightErrors => {
+  const errors: FlightErrors = {};
+  if (!flight.airline?.trim()) errors.airline = 'Airline is required';
+  if (!flight.flightNo?.trim()) errors.flightNo = 'Flight number is required';
+  if (!flight.departure.code?.trim()) errors.departure = { code: 'Departure airport is required' };
+  if (!flight.departure.date) errors.departure = { ...errors.departure, date: 'Departure date is required' };
+  if (!flight.arrival.code?.trim()) errors.arrival = { code: 'Arrival airport is required' };
+  if (!flight.arrival.date) errors.arrival = { ...errors.arrival, date: 'Arrival date is required' };
+  return errors;
+};
+
 const emptyEndpoint = () => ({ code: '', city: { en: '', zhHK: '' }, time: '', date: '' });
 
 const emptyFlight = (): Omit<Flight, '_id'> => ({
@@ -22,6 +40,8 @@ export default function BoardingPass() {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const [flights, setFlights] = useState<Flight[]>([]);
+  const [errors, setErrors] = useState<FlightErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [editing, setEditing] = useState<Partial<Flight> & Omit<Flight, '_id'> | null>(null);
   const [isNew, setIsNew] = useState(false);
   const lang = settings.language as 'en' | 'zhHK';
@@ -47,6 +67,11 @@ export default function BoardingPass() {
 
   const save = async () => {
     if (!editing) return;
+    const validationErrors = validateFlight(editing);
+    setErrors(validationErrors);
+    setTouched({ airline: true, flightNo: true, depCode: true, depDate: true, arrCode: true, arrDate: true });
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       if (isNew) {
         const res = await fetch(API, {
@@ -107,6 +132,24 @@ export default function BoardingPass() {
     });
   };
 
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (editing) setErrors(validateFlight(editing));
+  };
+
+  const getFieldError = (field: string): string | undefined => {
+    if (!touched[field]) return undefined;
+    if (field === 'airline') return errors.airline;
+    if (field === 'flightNo') return errors.flightNo;
+    if (field === 'depCode') return errors.departure?.code;
+    if (field === 'depDate') return errors.departure?.date;
+    if (field === 'arrCode') return errors.arrival?.code;
+    if (field === 'arrDate') return errors.arrival?.date;
+    return undefined;
+  };
+
+  const isValid = Object.keys(validateFlight(editing || emptyFlight())).length === 0;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -127,17 +170,29 @@ export default function BoardingPass() {
             <div className={styles.formGrid}>
               <label className={styles.formLabel}>
                 {t('flights.airline')}
-                <input className={styles.formInput} value={editing.airline} onChange={(e) => updateField('airline', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('airline') ? styles.error : ''}`} 
+                  value={editing.airline} 
+                  onChange={(e) => { updateField('airline', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('airline')} />
+                {getFieldError('airline') && <span className={styles.errorMsg}>{getFieldError('airline')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('flights.flightNo')}
-                <input className={styles.formInput} value={editing.flightNo} onChange={(e) => updateField('flightNo', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('flightNo') ? styles.error : ''}`} 
+                  value={editing.flightNo} 
+                  onChange={(e) => { updateField('flightNo', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('flightNo')} />
+                {getFieldError('flightNo') && <span className={styles.errorMsg}>{getFieldError('flightNo')}</span>}
               </label>
 
               <div className={styles.formSection}>{t('flights.departure')}</div>
               <label className={styles.formLabel}>
                 {t('flights.airportCode')}
-                <input className={styles.formInput} value={editing.departure.code} onChange={(e) => updateField('departure.code', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('depCode') ? styles.error : ''}`} 
+                  value={editing.departure.code} 
+                  onChange={(e) => { updateField('departure.code', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('depCode')} />
+                {getFieldError('depCode') && <span className={styles.errorMsg}>{getFieldError('depCode')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('flights.city')} (EN)
@@ -153,13 +208,21 @@ export default function BoardingPass() {
               </label>
               <label className={styles.formLabel}>
                 {t('flights.date')}
-                <input className={styles.formInput} type="date" value={editing.departure.date} onChange={(e) => updateField('departure.date', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('depDate') ? styles.error : ''}`} 
+                  type="date" value={editing.departure.date} 
+                  onChange={(e) => { updateField('departure.date', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('depDate')} />
+                {getFieldError('depDate') && <span className={styles.errorMsg}>{getFieldError('depDate')}</span>}
               </label>
 
               <div className={styles.formSection}>{t('flights.arrival')}</div>
               <label className={styles.formLabel}>
                 {t('flights.airportCode')}
-                <input className={styles.formInput} value={editing.arrival.code} onChange={(e) => updateField('arrival.code', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('arrCode') ? styles.error : ''}`} 
+                  value={editing.arrival.code} 
+                  onChange={(e) => { updateField('arrival.code', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('arrCode')} />
+                {getFieldError('arrCode') && <span className={styles.errorMsg}>{getFieldError('arrCode')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('flights.city')} (EN)
@@ -175,7 +238,11 @@ export default function BoardingPass() {
               </label>
               <label className={styles.formLabel}>
                 {t('flights.date')}
-                <input className={styles.formInput} type="date" value={editing.arrival.date} onChange={(e) => updateField('arrival.date', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('arrDate') ? styles.error : ''}`} 
+                  type="date" value={editing.arrival.date} 
+                  onChange={(e) => { updateField('arrival.date', e.target.value); if (editing) setErrors(validateFlight(editing)); }}
+                  onBlur={() => handleBlur('arrDate')} />
+                {getFieldError('arrDate') && <span className={styles.errorMsg}>{getFieldError('arrDate')}</span>}
               </label>
 
               <label className={styles.formLabel}>
@@ -194,7 +261,7 @@ export default function BoardingPass() {
                 </button>
               )}
               <button className={styles.cancelBtn} onClick={close}>{t('flights.cancel')}</button>
-              <button className={styles.saveBtn} onClick={save}>{t('flights.save')}</button>
+              <button className={styles.saveBtn} onClick={save} disabled={!isValid}>{t('flights.save')}</button>
             </div>
           </div>
         </div>

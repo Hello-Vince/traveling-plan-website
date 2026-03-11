@@ -84,4 +84,6 @@ export interface AppSettings {
   accentColor: AccentColor;
   fontSize: FontSize;
   fallingEffect: FallingEffect;
+  destination: string;
+  year: number;
 }

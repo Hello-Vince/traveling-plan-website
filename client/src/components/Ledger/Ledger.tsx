@@ -24,6 +24,26 @@ const categoryColors: Record<ExpenseCategory, string> = {
   other: '#FFF3CD',
 };
 
+type ExpenseErrors = {
+  description?: { en?: string; zhHK?: string };
+  amount?: string;
+  date?: string;
+};
+
+const validateExpense = (expense: Omit<Expense, '_id'>): ExpenseErrors => {
+  const errors: ExpenseErrors = {};
+  if (!expense.description.en?.trim()) {
+    errors.description = { en: 'Description is required' };
+  }
+  if (expense.amount <= 0) {
+    errors.amount = 'Amount must be greater than 0';
+  }
+  if (!expense.date) {
+    errors.date = 'Date is required';
+  }
+  return errors;
+};
+
 const emptyExpense = (): Omit<Expense, '_id'> => ({
   description: { en: '', zhHK: '' },
   amount: 0,
@@ -36,6 +56,8 @@ export default function Ledger() {
   const { settings } = useSettings();
   const [expenses, setExpenses] = useState<Expense[]>([]);
   const [editing, setEditing] = useState<(Partial<Expense> & Omit<Expense, '_id'>) | null>(null);
+  const [errors, setErrors] = useState<ExpenseErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [isNew, setIsNew] = useState(false);
   const lang = settings.language as 'en' | 'zhHK';
 
@@ -65,6 +87,11 @@ export default function Ledger() {
 
   const save = async () => {
     if (!editing) return;
+    const validationErrors = validateExpense(editing);
+    setErrors(validationErrors);
+    setTouched({ description_en: true, amount: true, date: true });
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       if (isNew) {
         const res = await fetch(API, {
@@ -125,6 +152,23 @@ export default function Ledger() {
     });
   };
 
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (editing) {
+      setErrors(validateExpense(editing));
+    }
+  };
+
+  const getFieldError = (field: string): string | undefined => {
+    if (!touched[field]) return undefined;
+    if (field === 'description_en') return errors.description?.en;
+    if (field === 'amount') return errors.amount;
+    if (field === 'date') return errors.date;
+    return undefined;
+  };
+
+  const isValid = Object.keys(validateExpense(editing || emptyExpense())).length === 0;
+
   const categories: ExpenseCategory[] = ['food', 'transport', 'accommodation', 'shopping', 'other'];
 
   return (
@@ -152,8 +196,11 @@ export default function Ledger() {
             <div className={styles.formGrid}>
               <label className={styles.formLabel}>
                 {t('ledger.description')} (EN)
-                <input className={styles.formInput} value={editing.description.en}
-                  onChange={(e) => updateField('description.en', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('description_en') ? styles.error : ''}`} 
+                  value={editing.description.en}
+                  onChange={(e) => { updateField('description.en', e.target.value); if (editing) setErrors(validateExpense(editing)); }}
+                  onBlur={() => handleBlur('description_en')} />
+                {getFieldError('description_en') && <span className={styles.errorMsg}>{getFieldError('description_en')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('ledger.description')} (粵)
@@ -162,9 +209,11 @@ export default function Ledger() {
               </label>
               <label className={styles.formLabel}>
                 {t('ledger.amount')}
-                <input className={styles.formInput} type="number" step="0.01" min="0"
+                <input className={`${styles.formInput} ${getFieldError('amount') ? styles.error : ''}`} type="number" step="0.01" min="0"
                   value={editing.amount}
-                  onChange={(e) => updateField('amount', parseFloat(e.target.value) || 0)} />
+                  onChange={(e) => { updateField('amount', parseFloat(e.target.value) || 0); if (editing) setErrors(validateExpense(editing)); }}
+                  onBlur={() => handleBlur('amount')} />
+                {getFieldError('amount') && <span className={styles.errorMsg}>{getFieldError('amount')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('ledger.category')}
@@ -179,8 +228,10 @@ export default function Ledger() {
               </label>
               <label className={styles.formLabel}>
                 {t('ledger.date')}
-                <input className={styles.formInput} type="date" value={editing.date}
-                  onChange={(e) => updateField('date', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('date') ? styles.error : ''}`} type="date" value={editing.date}
+                  onChange={(e) => { updateField('date', e.target.value); if (editing) setErrors(validateExpense(editing)); }}
+                  onBlur={() => handleBlur('date')} />
+                {getFieldError('date') && <span className={styles.errorMsg}>{getFieldError('date')}</span>}
               </label>
             </div>
             <div className={styles.modalActions}>
@@ -190,7 +241,7 @@ export default function Ledger() {
                 </button>
               )}
               <button className={styles.cancelBtn} onClick={close}>{t('ledger.cancel')}</button>
-              <button className={styles.saveBtn} onClick={save}>{t('ledger.save')}</button>
+              <button className={styles.saveBtn} onClick={save} disabled={!isValid}>{t('ledger.save')}</button>
             </div>
           </div>
         </div>

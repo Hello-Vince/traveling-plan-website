@@ -19,6 +19,8 @@ export default function Settings() {
     setAccentColor,
     setFontSize,
     setFallingEffect,
+    setDestination,
+    setYear,
   } = useSettings();
 
   return (
@@ -107,6 +109,26 @@ export default function Settings() {
             </button>
           ))}
         </div>
+      </div>
+
+      <div className={styles.section}>
+        <p className={styles.sectionLabel}>{t('settings.destination')}</p>
+        <input
+          type="text"
+          className={styles.textInput}
+          value={settings.destination}
+          onChange={(e) => setDestination(e.target.value)}
+        />
+      </div>
+
+      <div className={styles.section}>
+        <p className={styles.sectionLabel}>{t('settings.year')}</p>
+        <input
+          type="number"
+          className={styles.textInput}
+          value={settings.year}
+          onChange={(e) => setYear(Number(e.target.value))}
+        />
       </div>
     </div>
   );

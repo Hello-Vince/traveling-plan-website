@@ -387,3 +387,18 @@
 .deleteBtn:hover {
   background: #f5c6cb;
 }
+
+.error {
+  border-color: #dc3545 !important;
+}
+
+.errorMsg {
+  color: #dc3545;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.saveBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

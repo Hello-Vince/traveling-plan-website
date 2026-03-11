@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { SettingsProvider } from './contexts/SettingsContext';
+import { SettingsProvider, useSettings } from './contexts/SettingsContext';
 import Navbar from './components/Layout/Navbar';
 import FallingEffects from './components/Layout/FallingEffects';
 import StickerGrid from './components/StickerGrid/StickerGrid';
@@ -13,6 +13,7 @@ import './App.css';
 
 function AppContent() {
   const { t } = useTranslation();
+  const { settings } = useSettings();
   const [activeTab, setActiveTab] = useState('stickers');
 
   return (
@@ -22,10 +23,10 @@ function AppContent() {
         <header className="appHeader">
           <h1 className="appTitle">
             <span className="sakuraLeft">🍁</span>
-            {t('app.title')}
+            {t('app.title', { destination: settings.destination })}
             <span className="sakuraRight">🍁</span>
           </h1>
-          <p className="appSubtitle">{t('app.subtitle')}</p>
+          <p className="appSubtitle">{t('app.subtitle', { destination: settings.destination, year: settings.year })}</p>
         </header>
 
         <main>

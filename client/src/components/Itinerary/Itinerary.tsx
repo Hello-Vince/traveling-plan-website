@@ -6,6 +6,20 @@ import styles from './Itinerary.module.css';
 
 const API = '/api/itinerary';
 
+type DayErrors = {
+  dayNumber?: string;
+  date?: string;
+  title?: { en?: string; zhHK?: string };
+};
+
+const validateDay = (day: Omit<ItineraryDay, '_id'>): DayErrors => {
+  const errors: DayErrors = {};
+  if (!day.dayNumber || day.dayNumber < 1) errors.dayNumber = 'Day number is required';
+  if (!day.date) errors.date = 'Date is required';
+  if (!day.title.en?.trim()) errors.title = { en: 'Title is required' };
+  return errors;
+};
+
 const emptyLocation = (): ItineraryLocation => ({
   time: '',
   name: { en: '', zhHK: '' },
@@ -26,6 +40,8 @@ export default function Itinerary() {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const [days, setDays] = useState<ItineraryDay[]>([]);
+  const [errors, setErrors] = useState<DayErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [activeDay, setActiveDay] = useState(1);
   const lang = settings.language as 'en' | 'zhHK';
 
@@ -75,6 +91,11 @@ export default function Itinerary() {
 
   const saveDay = async () => {
     if (!editingDay) return;
+    const validationErrors = validateDay(editingDay);
+    setErrors(validationErrors);
+    setTouched({ dayNumber: true, date: true, title_en: true });
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       if (isNewDay) {
         const res = await fetch(API, {
@@ -219,6 +240,21 @@ export default function Itinerary() {
     });
   };
 
+  const handleDayBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (editingDay) setErrors(validateDay(editingDay));
+  };
+
+  const getDayFieldError = (field: string): string | undefined => {
+    if (!touched[field]) return undefined;
+    if (field === 'dayNumber') return errors.dayNumber;
+    if (field === 'date') return errors.date;
+    if (field === 'title_en') return errors.title?.en;
+    return undefined;
+  };
+
+  const isDayValid = editingDay ? Object.keys(validateDay(editingDay)).length === 0 : false;
+
   const categories = ['food', 'landmark', 'shopping', 'transport', 'hotel', 'activity', 'nature', 'culture'];
 
   return (
@@ -306,18 +342,27 @@ export default function Itinerary() {
             <div className={styles.formGrid}>
               <label className={styles.formLabel}>
                 {t('itinerary.day')} #
-                <input className={styles.formInput} type="number" value={editingDay.dayNumber}
-                  onChange={(e) => updateDayField('dayNumber', parseInt(e.target.value) || 0)} />
+                <input className={`${styles.formInput} ${getDayFieldError('dayNumber') ? styles.error : ''}`} 
+                  type="number" value={editingDay.dayNumber}
+                  onChange={(e) => { updateDayField('dayNumber', parseInt(e.target.value) || 0); if (editingDay) setErrors(validateDay(editingDay)); }}
+                  onBlur={() => handleDayBlur('dayNumber')} />
+                {getDayFieldError('dayNumber') && <span className={styles.errorMsg}>{getDayFieldError('dayNumber')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('itinerary.dayDate')}
-                <input className={styles.formInput} type="date" value={editingDay.date}
-                  onChange={(e) => updateDayField('date', e.target.value)} />
+                <input className={`${styles.formInput} ${getDayFieldError('date') ? styles.error : ''}`} 
+                  type="date" value={editingDay.date}
+                  onChange={(e) => { updateDayField('date', e.target.value); if (editingDay) setErrors(validateDay(editingDay)); }}
+                  onBlur={() => handleDayBlur('date')} />
+                {getDayFieldError('date') && <span className={styles.errorMsg}>{getDayFieldError('date')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('itinerary.dayTitle')} (EN)
-                <input className={styles.formInput} value={editingDay.title.en}
-                  onChange={(e) => updateDayField('title.en', e.target.value)} />
+                <input className={`${styles.formInput} ${getDayFieldError('title_en') ? styles.error : ''}`} 
+                  value={editingDay.title.en}
+                  onChange={(e) => { updateDayField('title.en', e.target.value); if (editingDay) setErrors(validateDay(editingDay)); }}
+                  onBlur={() => handleDayBlur('title_en')} />
+                {getDayFieldError('title_en') && <span className={styles.errorMsg}>{getDayFieldError('title_en')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('itinerary.dayTitle')} (粵)
@@ -342,7 +387,7 @@ export default function Itinerary() {
                 </button>
               )}
               <button className={styles.cancelBtn} onClick={closeDay}>{t('itinerary.cancel')}</button>
-              <button className={styles.saveBtn} onClick={saveDay}>{t('itinerary.save')}</button>
+              <button className={styles.saveBtn} onClick={saveDay} disabled={!isDayValid}>{t('itinerary.save')}</button>
             </div>
           </div>
         </div>

@@ -6,6 +6,22 @@ import styles from './ShoppingList.module.css';
 
 const API = '/api/shopping';
 
+type ShoppingErrors = {
+  name?: { en?: string; zhHK?: string };
+  quantity?: string;
+};
+
+const validateItem = (item: Omit<ShoppingItem, '_id'>): ShoppingErrors => {
+  const errors: ShoppingErrors = {};
+  if (!item.name.en?.trim()) {
+    errors.name = { en: 'Name is required' };
+  }
+  if (item.quantity < 1) {
+    errors.quantity = 'Quantity must be at least 1';
+  }
+  return errors;
+};
+
 const emptyItem = (): Omit<ShoppingItem, '_id'> => ({
   name: { en: '', zhHK: '' },
   image: '🛒',
@@ -18,6 +34,8 @@ export default function ShoppingList() {
   const { t } = useTranslation();
   const { settings } = useSettings();
   const [items, setItems] = useState<ShoppingItem[]>([]);
+  const [errors, setErrors] = useState<ShoppingErrors>({});
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
   const [editing, setEditing] = useState<(Partial<ShoppingItem> & Omit<ShoppingItem, '_id'>) | null>(null);
   const [isNew, setIsNew] = useState(false);
   const lang = settings.language as 'en' | 'zhHK';
@@ -72,6 +90,11 @@ export default function ShoppingList() {
 
   const save = async () => {
     if (!editing) return;
+    const validationErrors = validateItem(editing);
+    setErrors(validationErrors);
+    setTouched({ name_en: true, quantity: true });
+    if (Object.keys(validationErrors).length > 0) return;
+
     try {
       if (isNew) {
         const res = await fetch(API, {
@@ -132,6 +155,20 @@ export default function ShoppingList() {
     });
   };
 
+  const handleBlur = (field: string) => {
+    setTouched((prev) => ({ ...prev, [field]: true }));
+    if (editing) setErrors(validateItem(editing));
+  };
+
+  const getFieldError = (field: string): string | undefined => {
+    if (!touched[field]) return undefined;
+    if (field === 'name_en') return errors.name?.en;
+    if (field === 'quantity') return errors.quantity;
+    return undefined;
+  };
+
+  const isValid = Object.keys(validateItem(editing || emptyItem())).length === 0;
+
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -157,8 +194,11 @@ export default function ShoppingList() {
               </label>
               <label className={styles.formLabel}>
                 {t('shopping.name')} (EN)
-                <input className={styles.formInput} value={editing.name.en}
-                  onChange={(e) => updateField('name.en', e.target.value)} />
+                <input className={`${styles.formInput} ${getFieldError('name_en') ? styles.error : ''}`} 
+                  value={editing.name.en}
+                  onChange={(e) => { updateField('name.en', e.target.value); if (editing) setErrors(validateItem(editing)); }}
+                  onBlur={() => handleBlur('name_en')} />
+                {getFieldError('name_en') && <span className={styles.errorMsg}>{getFieldError('name_en')}</span>}
               </label>
               <label className={styles.formLabel}>
                 {t('shopping.name')} (粵)
@@ -167,9 +207,12 @@ export default function ShoppingList() {
               </label>
               <label className={styles.formLabel}>
                 {t('shopping.qty')}
-                <input className={styles.formInput} type="number" min="1"
+                <input className={`${styles.formInput} ${getFieldError('quantity') ? styles.error : ''}`} 
+                  type="number" min="1"
                   value={editing.quantity}
-                  onChange={(e) => updateField('quantity', parseInt(e.target.value) || 1)} />
+                  onChange={(e) => { updateField('quantity', parseInt(e.target.value) || 1); if (editing) setErrors(validateItem(editing)); }}
+                  onBlur={() => handleBlur('quantity')} />
+                {getFieldError('quantity') && <span className={styles.errorMsg}>{getFieldError('quantity')}</span>}
               </label>
             </div>
             <div className={styles.modalActions}>
@@ -179,7 +222,7 @@ export default function ShoppingList() {
                 </button>
               )}
               <button className={styles.cancelBtn} onClick={close}>{t('shopping.cancel')}</button>
-              <button className={styles.saveBtn} onClick={save}>{t('shopping.save')}</button>
+              <button className={styles.saveBtn} onClick={save} disabled={!isValid}>{t('shopping.save')}</button>
             </div>
           </div>
         </div>

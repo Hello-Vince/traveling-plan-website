@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "Halifax Trip Planner",
-    "subtitle": "Nova Scotia Adventure 2026"
+    "title": "{{destination}} Trip Planner",
+    "subtitle": "{{destination}} Adventure {{year}}"
   },
   "nav": {
     "stickers": "Stickers",
@@ -116,6 +116,8 @@
     "none": "None",
     "snowflakes": "Snowflakes",
     "cherry": "Cherry Blossoms",
-    "stars": "Stars"
+    "stars": "Stars",
+    "destination": "Destination",
+    "year": "Year"
   }
 }

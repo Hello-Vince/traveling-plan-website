@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "哈利法克斯旅行計劃",
-    "subtitle": "2026 新斯科舍之旅"
+    "title": "{{destination}}旅行計劃",
+    "subtitle": "{{year}} {{destination}}之旅"
   },
   "nav": {
     "stickers": "貼紙",
@@ -116,6 +116,8 @@
     "none": "無",
     "snowflakes": "雪花",
     "cherry": "櫻花",
-    "stars": "星星"
+    "stars": "星星",
+    "destination": "目的地",
+    "year": "年份"
   }
 }
